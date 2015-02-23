@@ -124,7 +124,7 @@ public class Ventana extends JFrame implements ActionListener {
 		JButton bDescifrar = new JButton("Descifrar");
 		bDescifrar.addActionListener(this);
 		bDescifrar.setActionCommand(DESCIFRAR);
-		panBotones.add(bDescifrar);
+		//panBotones.add(bDescifrar); no se ha implementado el descifrado
 		setBtnDescifrar(bDescifrar);
 	}
 	
