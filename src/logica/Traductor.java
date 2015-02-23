@@ -1,10 +1,9 @@
 package logica;
 
+
 public class Traductor {
 
-	static int [] S = new int [256];
-	static int [] K = new int [256];
-	
+	static int [] S = new int [256];	
 	
 	public static int [] aDecimal (String texto){
 		char [] aux = texto.toCharArray();
@@ -40,17 +39,16 @@ public class Traductor {
 	public static int[] inicializar(String key){
 
 		int [] clave = aDecimal(key);
+		int [] K = new int [256];
 
 		for(int i = 0; i < 256; i++){
 			S[i] = i;
 			K[i] = clave[i % clave.length]; 
-			//System.out.println(clave[i]); la clave la pasa bien a decimal
 		}
 		
 		int j = 0;
 		for(int i = 0; i < 256; i++){
 			j = (j + S[i] + K[i]) % 256;
-			//System.out.println("j:" + j);
 			intercambia(i,j);
 		}	
 	
@@ -81,11 +79,9 @@ public class Traductor {
 			int t = ((aux[i] + aux[j]) % 256);
 			
 			
-			//for (int k = 0; k < texto.length; k++){
 				int txt = texto[k];
 				int a = aux[t];
 				resultado[k] = txt ^ a; //donde k va de 0 a mensaje-1.
-			//}
 		}
 		
 		String cadena = "";
@@ -96,5 +92,4 @@ public class Traductor {
 
 		return cadena; 
 	}
-	
 }
