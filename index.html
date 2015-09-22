@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Cifrado RC4</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link href="http://fonts.googleapis.com/css?family=Karla:400,700" rel="stylesheet" />
+<link href="fonts.css" rel="stylesheet" type="text/css" media="all" />
+<link href="default.css" rel="stylesheet" type="text/css" media="all" />
+<!--[if IE 6]>
+<link href="default_ie6.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+</head>
+<body>
+<div id="wrapper">
+	<div id="header-wrapper">
+		<div id="header" class="container">
+			<div id="logo">
+				<h1>Cifrado RC4</h1>
+				<p> Seguridad en Sistemas Informáticos </p>
+				blue</a>
+				<a href="https://github.com/RebeccaMartinez/Cifrado_RC4" class="myButton">Ver repositorio </a>
+			</div>
+		</div>
+	</div>
+	<div id="page" class="container">
+		<div id="content">
+			<div class="title">
+				<h2>Características</h2>
+			</div>
+			<ul>
+				<li>Cifrado de flujo</li>
+				<li>Criptosistema simétrico (ulitiliza la misma clave para cifrar y descifrar)</li>
+				<li>Se utiliza en protocolos como TLS/SSL y WEP</li>
+				<li>No está recomendado su uso en los nuevos sistemas</li>
+				<li>Clave: de longitud 1 a 256 (Ejemplo: 2 5 )</li>
+			</ul>
+			<div class="title" id="seg">
+				<h2>Explicación</h2>
+			</div>
+			<p>Este cifrado se divide en dos partes: la inicialización en la que se inicializa el vector S de una determinada manera y la generación de secuencia cifrante
+			(PRGA) en la que se cifra el mensaje usando el vecotr S obtenido en la inicialización.</p>
+
+			<p><b>Inicialización (Key Scheduling Algorithm, KSA)</b></p>
+			<p> En primer lugar, se inicializa el verctor de estado o caja S de tamaño 8 x 8 con los valores de 0 a 255. <p>
+			<p><i><b>for i = 0 to 255 { S[i] = [i] }</b></i></p>
+
+			<p> En segundo lugar se escoge una clave con la que cifrar cuya longitud esté entre 1 y 256. Para este ejemplo usaremos como clave 2 5. La clave la almacenamos en un vector V de
+				tamaño 256 repetida tantas veces como sea necesario para llenar el vector. En este caso tendremos que repetirla 128 veces para que
+				se llene. (2 5 2 5 2 5 ...)</p>
+				<p><i><b>for i = 0 to 255 { K[i] = V[i % V.length] }</b></i></p>
+				<p><b>Nota:</b> i % V.length impide que la posición a la que se acceda sea mayor o igual al tamaño de la clave.
+					En este caso cuando i=2 i%2=0, cuando i=3 i%3=1 etc. De esta forma las posiciones a las que se accede siempre
+					serán la posición 0 y la 1 (que son las únicas que tiene V ya que su longitud es 2) </p>
+
+			<p>En tercer lugar se mezcla el vector S de la siguiente manera:</p>
+			<p><i><b>j = 0 <br>
+			 for i = 0 to 255 { <br>
+					j = (j + S[i] + K[i]) mod 256; <br>
+					intercambia S[i] y S[j]; <br>
+			}<br>
+			</b></i>
+			<p>De eta manera vamos cambiando los valores de S entre si y al final nos quedará un vector S con los números mezclados.</p>
+		  </p>
+
+			<p><b>Generación de secuencia cifrante (PRGA)</b></p>
+			<p>En esta parte se inicializan dos variables a 0 (i = 0, j = 0), A continuación se generan tantos bits como tamaño tenga el mensaje
+			siguiendo la siguiente fórmula:</p>
+
+			<p>
+				<ul>
+					<li>i = (i + 1) mod 256</li>
+					<li>j = (j + S[i]) mod 256</li>
+				</ul>
+			</p>
+
+			<p>Por último ciframos el mensaje generando un bit t (t = S[i] + S[j] mod 256 y es generado en cada iteracción) y haciendo una xor con el mensaje por orden (primero el elemento 0, despues el 1, etc) y el valor S[t].</p>
+
+			 <p><i><b>for i = 0 to mensaje.length { <br>
+				 		i = (i + 1) mod 256
+						j = (j + S[i]) mod 256; <br>
+						intercambia S[i] y S[j]; <br>
+						t = S[i] + S[j] mod 256; <br>
+						a = mensaje[i]; //vamos cogiendo cada elemento individualmente por orden<br>
+						b = S [t];<br>
+						cifrado[i] = a XOR b;<br>
+			}<br></i></b>
+			</p>
+			<h3>¡cifrado[i] contiene el mensaje cifrado!</h3>
+		</div>
+	</div>
+</div>
+<div id="copyright" class="container">
+	<p> Rebecca Martínez Galán | Perfil de Github: <a href="https://github.com/RebeccaMartinez">Rebecca Martínez</a>.</p>
+</div>
+</body>
+</html>
